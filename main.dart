@@ -13,10 +13,28 @@ import "dart:io";
   return (cigName, cigAmount, cigPrice);
 }
 
+(String, String) currentDateTime() {
+  List<String> months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+  DateTime currentDT = new DateTime.now();
+  String currentDTinString = currentDT.toString();
+
+  String year = currentDTinString.substring(0, 4);
+  int monthInt = int.parse(currentDTinString.substring(5, 7));
+  String month = months[monthInt-1];
+  String day = currentDTinString.substring(8, 10);
+  String date = "$day-$month-$year";
+
+  String time = currentDTinString.substring(11, 16);
+
+  return (time, date);
+}
+
+
 void writeDB() {
   File file = File("usr_database.csv");
   var (fagName, fagAmount, fagPrice) = userInput();
-  file.writeAsStringSync("${fagName[0].toUpperCase()}${fagName.substring(1, )}, ${fagAmount}, ${fagPrice}\n", mode: FileMode.append);
+  var (time, date) = currentDateTime();
+  file.writeAsStringSync("$date, $time, ${fagName[0].toUpperCase()}${fagName.substring(1, )}, ${fagAmount}, ${fagPrice}\n", mode: FileMode.append);
 }
 
 void main() {
